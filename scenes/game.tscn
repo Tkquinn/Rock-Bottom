@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://ce86fhk2txoi8"]
+
+[ext_resource type="PackedScene" uid="uid://c8we0abhruibd" path="res://scenes/player.tscn" id="1_euc0b"]
+[ext_resource type="Texture2D" uid="uid://cnd7mqr3b80a4" path="res://assets/walls:background.png" id="2_lx2rc"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_id3mj"]
+texture = ExtResource("2_lx2rc")
+0:0/0 = 0
+1:0/0 = 0
+1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, 5, 8, 5.125, 8, 8, -8, 8)
+2:0/0 = 0
+2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, 5, 8, 5.125, 8, 8, -8, 8)
+
+[sub_resource type="TileSet" id="TileSet_dhg1y"]
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_id3mj")
+
+[node name="Game" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("1_euc0b")]
+position = Vector2(8, 3)
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+position = Vector2(1, 1)
+zoom = Vector2(4.5, 4.5)
+
+[node name="TileMap" type="TileMap" parent="."]
+z_index = -1
+tile_set = SubResource("TileSet_dhg1y")
+format = 2
+layer_0/tile_data = PackedInt32Array(65533, 131072, 0, 65534, 131072, 0, 65535, 131072, 0, 0, 131072, 0, 1, 131072, 0, 2, 131072, 0, 3, 131072, 0, -65533, 0, 0, -65534, 0, 0, -65535, 0, 0, -65536, 0, 0, -1, 0, 0, -2, 0, 0, -3, 0, 0, -65539, 0, 0, -65538, 0, 0, -65537, 0, 0, -131072, 0, 0, -131071, 0, 0, -131070, 0, 0, -131069, 0, 0, -196605, 0, 0, -196606, 0, 0, -196607, 0, 0, -196608, 0, 0, -131073, 0, 0, -196609, 0, 0, -196610, 0, 0, -196611, 0, 0, -131075, 0, 0, -131074, 0, 0, -262144, 0, 0, -262143, 0, 0, -262142, 0, 0, -262141, 0, 0, -65532, 65536, 1610612736, -131068, 65536, 1610612736, -196604, 65536, 1610612736, -262140, 65536, 1610612736, -196612, 65536, 1342177280, -131076, 65536, 1342177280, -65540, 65536, 1342177280, -4, 65536, 1342177280, 4, 131072, 0, 65532, 131072, 0)
