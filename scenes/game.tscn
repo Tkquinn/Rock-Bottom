@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://ce86fhk2txoi8"]
+[gd_scene load_steps=6 format=3 uid="uid://ce86fhk2txoi8"]
 
 [ext_resource type="PackedScene" uid="uid://c8we0abhruibd" path="res://scenes/player.tscn" id="1_euc0b"]
 [ext_resource type="Texture2D" uid="uid://k6426w5bwq4g" path="res://assets/border and fill lvl 1.png" id="2_xfatf"]
+[ext_resource type="PackedScene" uid="uid://gmlrwib0u5tf" path="res://scenes/pause_menu.tscn" id="3_cq86n"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6wvwq"]
 texture = ExtResource("2_xfatf")
@@ -40,3 +41,7 @@ offset_top = 23.0
 offset_right = 111.0
 offset_bottom = 70.0
 text = "a,d to move, space to jump"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="pause_menu" parent="CanvasLayer" instance=ExtResource("3_cq86n")]
