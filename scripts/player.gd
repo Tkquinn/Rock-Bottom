@@ -1,9 +1,13 @@
 extends CharacterBody2D
 
+@export var accelerationValue = 0.01
+@export var slideValue = 0.01
+@export var fullStopValue = 15
 
 const SPEED = 100.0
 const JUMP_VELOCITY = -250.0
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var floor_ray_cast: RayCast2D = $floorRayCast
 
 
 func _physics_process(delta: float) -> void:
@@ -18,6 +22,11 @@ func _physics_process(delta: float) -> void:
 	# Get the input direction: -1, 0, 1
 	var direction := Input.get_axis("move_left", "move_right")
 	
+	if _is_on_moss():
+		_movement_on_moss(direction)
+	else:
+		_normal_movement(direction)
+	
 	#flip the sprite
 	if direction > 0:
 		animated_sprite.flip_h = false
@@ -26,7 +35,7 @@ func _physics_process(delta: float) -> void:
 	
 	#play animations
 	
-	#animations if I have time to make a jump animation.
+	#animation code if I have time to make a jump animation.
 	#if is_on_floor():
 		#if direction == 0:
 			#animated_sprite.play("Idle")
@@ -47,3 +56,21 @@ func _physics_process(delta: float) -> void:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 
 	move_and_slide()
+
+func _movement_on_moss(direction):
+	if direction:
+		velocity.x = lerp(velocity.x, direction * SPEED, accelerationValue)
+	else:
+		velocity.x = lerp(velocity.x, 0.0, slideValue)
+		if velocity.x < fullStopValue and velocity.x > -fullStopValue:
+			velocity.x = 0
+
+func _normal_movement(direction):
+	if direction:
+		velocity.x = direction * SPEED
+
+func _is_on_moss():
+	var collider = floor_ray_cast.get_collider()
+	if not collider:
+		return false
+	return collider.name == "mossy"
