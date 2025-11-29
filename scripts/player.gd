@@ -2,12 +2,13 @@ extends CharacterBody2D
 
 @export var accelerationValue = 0.01
 @export var slideValue = 0.01
-@export var fullStopValue = 15
+@export var fullStopValue = 20
 
 const SPEED = 100.0
 const JUMP_VELOCITY = -250.0
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var floor_ray_cast: RayCast2D = $floorRayCast
+@onready var floor_ray_cast_2: RayCast2D = $floorRayCast2
 
 
 func _physics_process(delta: float) -> void:
@@ -50,16 +51,16 @@ func _physics_process(delta: float) -> void:
 		animated_sprite.play("Move Horizontal")
 	
 	#apply movement
-	if direction:
-		velocity.x = direction * SPEED
-	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
+	#if direction:
+	#	velocity.x = direction * SPEED
+	#else:
+	#	velocity.x = move_toward(velocity.x, 0, SPEED)
 
 	move_and_slide()
 
 func _movement_on_moss(direction):
 	if direction:
-		velocity.x = lerp(velocity.x, direction * SPEED, accelerationValue)
+		velocity.x =  lerp(velocity.x, direction * SPEED, accelerationValue)
 	else:
 		velocity.x = lerp(velocity.x, 0.0, slideValue)
 		if velocity.x < fullStopValue and velocity.x > -fullStopValue:
@@ -68,9 +69,14 @@ func _movement_on_moss(direction):
 func _normal_movement(direction):
 	if direction:
 		velocity.x = direction * SPEED
+	else:
+		velocity.x = move_toward(velocity.x, 0, SPEED)
 
 func _is_on_moss():
 	var collider = floor_ray_cast.get_collider()
+	var collider2 = floor_ray_cast_2.get_collider()
 	if not collider:
-		return false
+		if not collider2:
+			return false
+		return collider2.name == "mossy"
 	return collider.name == "mossy"
