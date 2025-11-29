@@ -10,6 +10,7 @@ const JUMP_VELOCITY = -250.0
 @onready var floor_ray_cast: RayCast2D = $floorRayCast
 @onready var floor_ray_cast_2: RayCast2D = $floorRayCast2
 
+var platVel = Vector2(0,0)
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.

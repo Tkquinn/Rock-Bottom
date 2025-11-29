@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=4 uid="uid://ce86fhk2txoi8"]
+[gd_scene load_steps=33 format=4 uid="uid://ce86fhk2txoi8"]
 
 [ext_resource type="PackedScene" uid="uid://c8we0abhruibd" path="res://scenes/player.tscn" id="1_euc0b"]
 [ext_resource type="Texture2D" uid="uid://k6426w5bwq4g" path="res://assets/border and fill lvl 1.png" id="2_xfatf"]
@@ -7,6 +7,11 @@
 [ext_resource type="Texture2D" uid="uid://c0dj6iegvkk2n" path="res://assets/lvl 3.png" id="4_46u3g"]
 [ext_resource type="Texture2D" uid="uid://dpi8ghngb7s83" path="res://assets/mossy.png" id="4_ko61a"]
 [ext_resource type="Texture2D" uid="uid://brx4gkxfut1o0" path="res://assets/ending.png" id="5_r7n1k"]
+[ext_resource type="Script" path="res://scripts/fish.gd" id="8_l3k8k"]
+[ext_resource type="Texture2D" uid="uid://cv16wvsgbbdxk" path="res://assets/fish.png" id="9_hbr3e"]
+[ext_resource type="Script" path="res://scripts/fish_platform_2.gd" id="10_ivlyg"]
+[ext_resource type="Script" path="res://scripts/fish_platform_3.gd" id="11_awr1a"]
+[ext_resource type="AudioStream" uid="uid://ivjq311yoa2x" path="res://assets/background music.mp3" id="12_und1g"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6wvwq"]
 texture = ExtResource("2_xfatf")
@@ -93,10 +98,138 @@ texture = ExtResource("4_ko61a")
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_xncu5")
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_8kpt4"]
+atlas = ExtResource("9_hbr3e")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ubsfh"]
+atlas = ExtResource("9_hbr3e")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jdm33"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8kpt4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ubsfh")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Animation" id="Animation_lhr1p"]
+length = 6.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-56, -1246)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:flip_h")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_plteb"]
+resource_name = "flip"
+
+[sub_resource type="Animation" id="Animation_5wamk"]
+resource_name = "move"
+length = 8.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 4.03333, 7.93333),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(-56, -1246), Vector2(34, -1246), Vector2(-56, -1246)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:flip_h")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(4.1, 7.93333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, false]
+}
+
+[sub_resource type="Animation" id="Animation_auhjy"]
+resource_name = "move 2"
+length = 6.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.0333333, 3, 6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(-83, -1344), Vector2(-22, -1344), Vector2(-83, -1344)]
+}
+
+[sub_resource type="Animation" id="Animation_bb56v"]
+resource_name = "move 3"
+length = 6.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.0666667, 3.03333, 6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(83, -1344), Vector2(9, -1344), Vector2(83, -1344)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ptbx3"]
+_data = {
+"RESET": SubResource("Animation_lhr1p"),
+"flip": SubResource("Animation_plteb"),
+"move": SubResource("Animation_5wamk"),
+"move 2": SubResource("Animation_auhjy"),
+"move 3": SubResource("Animation_bb56v")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_np1hg"]
+size = Vector2(13, 6)
+
 [node name="Game" type="Node2D"]
 
 [node name="Player" parent="." instance=ExtResource("1_euc0b")]
-position = Vector2(7, 2)
+position = Vector2(-104, -1295)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 position = Vector2(1, 1)
@@ -158,3 +291,61 @@ offset_bottom = -1663.0
 size_flags_horizontal = 4
 size_flags_vertical = 8
 text = "YOU WIN! I dont really have anything for you um. Dm me for cute dog pics! :)"
+
+[node name="fish_platform" type="AnimatableBody2D" parent="."]
+position = Vector2(-56, -1246)
+script = ExtResource("8_l3k8k")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="fish_platform"]
+sprite_frames = SubResource("SpriteFrames_jdm33")
+autoplay = "default"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="fish_platform"]
+libraries = {
+"": SubResource("AnimationLibrary_ptbx3")
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="fish_platform"]
+position = Vector2(-0.5, 0)
+shape = SubResource("RectangleShape2D_np1hg")
+
+[node name="fish_platform2" type="AnimatableBody2D" parent="."]
+position = Vector2(-56, -1246)
+script = ExtResource("10_ivlyg")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="fish_platform2"]
+sprite_frames = SubResource("SpriteFrames_jdm33")
+autoplay = "default"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="fish_platform2"]
+libraries = {
+"": SubResource("AnimationLibrary_ptbx3")
+}
+autoplay = "move"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="fish_platform2"]
+position = Vector2(-0.5, 0)
+shape = SubResource("RectangleShape2D_np1hg")
+
+[node name="fish_platform3" type="AnimatableBody2D" parent="."]
+position = Vector2(-56, -1246)
+script = ExtResource("11_awr1a")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="fish_platform3"]
+sprite_frames = SubResource("SpriteFrames_jdm33")
+autoplay = "default"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="fish_platform3"]
+libraries = {
+"": SubResource("AnimationLibrary_ptbx3")
+}
+autoplay = "move"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="fish_platform3"]
+position = Vector2(-0.5, 0)
+shape = SubResource("RectangleShape2D_np1hg")
+
+[node name="Music" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("12_und1g")
+volume_db = -15.0
+autoplay = true
