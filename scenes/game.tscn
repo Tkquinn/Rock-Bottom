@@ -229,7 +229,7 @@ size = Vector2(13, 6)
 [node name="Game" type="Node2D"]
 
 [node name="Player" parent="." instance=ExtResource("1_euc0b")]
-position = Vector2(-104, -1295)
+position = Vector2(8, 3)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 position = Vector2(1, 1)
